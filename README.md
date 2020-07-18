@@ -1,1 +1,1 @@
-# movie_club
+# Movie Club
