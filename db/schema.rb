@@ -13,11 +13,18 @@
 ActiveRecord::Schema.define(version: 2020_07_18_225413) do
 
   create_table "movies", force: :cascade do |t|
+    t.string "title", null: false
+    t.decimal "rating", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|
+    t.string "username", null: false
+    t.string "email", null: false
+    t.string "first_name", null: false
+    t.string "last_name"
+    t.boolean "email_notifications", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
