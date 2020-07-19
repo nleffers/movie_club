@@ -20,7 +20,7 @@ class UsersController < ApplicationController
   end
 
   def show
-    User.include(:movies).find(params[:id])
+    User.joins(:movies).find(params[:id])
   end
 
   def show_current_user

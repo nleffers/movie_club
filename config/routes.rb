@@ -9,4 +9,6 @@ Rails.application.routes.draw do
       put 'rate'
     end
   end
+
+  resources :reviews, only: [:create, :update, :destroy]
 end
