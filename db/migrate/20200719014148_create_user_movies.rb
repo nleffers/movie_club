@@ -3,7 +3,8 @@ class CreateUserMovies < ActiveRecord::Migration[5.2]
     create_table :user_movies do |t|
       t.belongs_to :movie
       t.belongs_to :user
-      t.integer :rating
+
+      t.timestamps
     end
   end
 end
