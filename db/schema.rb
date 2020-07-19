@@ -20,6 +20,13 @@ ActiveRecord::Schema.define(version: 2020_07_19_014148) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "movies_users", id: false, force: :cascade do |t|
+    t.integer "movie_id"
+    t.integer "user_id"
+    t.index ["movie_id"], name: "index_movies_users_on_movie_id"
+    t.index ["user_id"], name: "index_movies_users_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "username", null: false
     t.string "email", null: false
@@ -28,13 +35,6 @@ ActiveRecord::Schema.define(version: 2020_07_19_014148) do
     t.boolean "email_notifications", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "users_movies", id: false, force: :cascade do |t|
-    t.integer "users_id"
-    t.integer "movies_id"
-    t.index ["movies_id"], name: "index_users_movies_on_movies_id"
-    t.index ["users_id"], name: "index_users_movies_on_users_id"
   end
 
 end

@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :get_user, only: %i[login show update destroy]
+  before_action :get_user, only: %i[login update destroy]
 
   def new; end
 
@@ -20,7 +20,7 @@ class UsersController < ApplicationController
   end
 
   def show
-    user
+    User.include(:movies).find(params[:id])
   end
 
   def show_current_user
