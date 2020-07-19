@@ -20,11 +20,12 @@ ActiveRecord::Schema.define(version: 2020_07_19_014148) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "movies_users", id: false, force: :cascade do |t|
+  create_table "user_movies", force: :cascade do |t|
     t.integer "movie_id"
     t.integer "user_id"
-    t.index ["movie_id"], name: "index_movies_users_on_movie_id"
-    t.index ["user_id"], name: "index_movies_users_on_user_id"
+    t.integer "rating"
+    t.index ["movie_id"], name: "index_user_movies_on_movie_id"
+    t.index ["user_id"], name: "index_user_movies_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|

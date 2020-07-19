@@ -1,5 +1,6 @@
 class User < ApplicationRecord
-  has_and_belongs_to_many :movies
+  has_many :user_movies
+  has_many :movies, through: :user_movies
 
   def self.current
     Thread.current[:user]
