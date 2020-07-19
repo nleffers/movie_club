@@ -1,4 +1,4 @@
+# Controller for Root
 class HomepageController < ApplicationController
-  def home
-  end
+  def home; end
 end

@@ -1,3 +1,4 @@
+# Controller for Users
 class UsersController < ApplicationController
   before_action :get_user, only: %i[login update destroy]
 
@@ -10,7 +11,7 @@ class UsersController < ApplicationController
   end
 
   def login
-    User.current = user
+    User.current = @user
 
     redirect_to root_path
   end
@@ -28,13 +29,13 @@ class UsersController < ApplicationController
   end
 
   def update
-    user.update(user_params)
+    @user.update(user_params)
 
-    user
+    @user
   end
 
   def destroy
-    user.destroy
+    @user.destroy
 
     head :ok
   end
@@ -42,7 +43,7 @@ class UsersController < ApplicationController
   private
 
   def get_user
-    user = User.find(params[:id])
+    @user = User.find(params[:id])
   end
 
   def user_params

@@ -1,10 +1,11 @@
+# Controller for Movies
 class MoviesController < ApplicationController
-  before_action :get_movie, only: [:create, :show, :update, :destroy, :rate]
+  before_action :get_movie, only: %i[create show update destroy rate]
 
   def new; end
 
   def create
-    movie = Movie.create(movie_params)
+    Movie.create(movie_params)
   end
 
   def index
@@ -12,33 +13,33 @@ class MoviesController < ApplicationController
   end
 
   def show
-    movie
+    @movie
   end
 
   def update
-    movie.update(movie_params)
+    @movie.update(movie_params)
 
-    movie
+    @movie
   end
 
   def destroy
-    movie.destroy
+    @movie.destroy
 
-    movie
+    @movie
   end
 
   def rate
-    movie.rating += params[:rating]
-    movie.rating_count += params[:rating_count]
-    movie.save
+    @movie.rating += params[:rating]
+    @movie.rating_count += params[:rating_count]
+    @movie.save
 
-    movie
+    @movie
   end
 
   private
 
   def get_movie
-    movie = Movie.find(params[:id])
+    @movie = Movie.find(params[:id])
   end
 
   def movie_params
