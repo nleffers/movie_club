@@ -10,11 +10,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_18_225413) do
+ActiveRecord::Schema.define(version: 2020_07_19_014148) do
 
   create_table "movies", force: :cascade do |t|
     t.string "title", null: false
-    t.decimal "rating", null: false
+    t.integer "rating", default: 0, null: false
+    t.integer "rating_count", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -27,6 +28,13 @@ ActiveRecord::Schema.define(version: 2020_07_18_225413) do
     t.boolean "email_notifications", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "users_movies", id: false, force: :cascade do |t|
+    t.integer "users_id"
+    t.integer "movies_id"
+    t.index ["movies_id"], name: "index_users_movies_on_movies_id"
+    t.index ["users_id"], name: "index_users_movies_on_users_id"
   end
 
 end
