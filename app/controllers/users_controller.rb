@@ -69,6 +69,7 @@ class UsersController < ApplicationController
     return unless user && user.authenticate(login_params[:password])
 
     @user = user
+    @user
   end
 
   def get_encoded_auth_token
