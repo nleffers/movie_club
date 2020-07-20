@@ -8,13 +8,13 @@ class UsersController < ApplicationController
     @user.update(token: get_encoded_auth_token)
     User.current = @user
 
-    render json: @user
+    render json: @user, serializer: User::ShowSerializer
   end
 
   def login
     authenticate_user
 
-    render json: @user
+    render json: @user, serializer: User::ShowSerializer
   end
 
   def logout
@@ -32,17 +32,13 @@ class UsersController < ApplicationController
   end
 
   def show
-    User.joins(:movies).find(params[:id])
-  end
-
-  def show_current_user
-    User.current
+    render json: @user, serializer: User::ShowSerializer
   end
 
   def update
     @user.update(user_params)
 
-    @user
+    render json: @user, serializer: User::ShowSerializer
   end
 
   def destroy
