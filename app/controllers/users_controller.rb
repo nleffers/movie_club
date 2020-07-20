@@ -12,7 +12,7 @@ class UsersController < ApplicationController
   end
 
   def login
-    authenticate_user
+    User.current = authenticate_user
 
     render json: @user, serializer: User::ShowSerializer
   end
@@ -58,6 +58,7 @@ class UsersController < ApplicationController
 
     token = get_encoded_auth_token
     @user.update(token: token) unless @user.token == token
+    @user
   end
 
   def user_authenticated?

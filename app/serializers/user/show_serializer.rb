@@ -8,6 +8,6 @@ class User::ShowSerializer < ActiveModel::Serializer
              :email_notifications,
              :token
 
-  has_many :movies, through: :user_movies, each_serializer: Movie::UserSerializer
-  has_many :reviews, each_serializer: Review::UserSerializer
+  has_many :movies, serializer: Movie::LoginSerializer
+  has_many :reviews, serializer: Review::LoginSerializer
 end
