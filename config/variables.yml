@@ -1,0 +1,6 @@
+# Restart the server after changing this file
+# Access these variables with YML_VAR['variable']
+
+# Token expiration
+# 1440 minutes = 24 hours
+token_expiration: '1440'
