@@ -3,9 +3,9 @@ class ReviewsController < ApplicationController
   before_action :get_review, only: %i[update destroy]
 
   def create
-    Review.create(review_params)
+    review = Review.create(review_params.merge(user_id: User.current.id))
 
-    head :ok
+    render json: { id: review.id }, status: 200
   end
 
   def update
@@ -27,9 +27,9 @@ class ReviewsController < ApplicationController
   end
 
   def review_params
-    params.require(:id,
-                   :movie_id,
-                   :title,
-                   :blog)
+    params.require(:review).permit(:id,
+                                   :movie_id,
+                                   :title,
+                                   :blog)
   end
 end
