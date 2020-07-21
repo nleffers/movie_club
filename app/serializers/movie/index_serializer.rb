@@ -1,5 +1,5 @@
-# Responsible for serializing a User's Movies
-class Movie::LoginSerializer < ActiveModel::Serializer
+# Responsible for serializing a Movies
+class Movie::IndexSerializer < ActiveModel::Serializer
   attributes :id,
              :title,
              :rating,
@@ -7,6 +7,8 @@ class Movie::LoginSerializer < ActiveModel::Serializer
              :user_rating
 
   def user_rating
+    return unless User.current
+
     UserMovie.find_by(
       user_id: User.current.id,
       movie_id: object.id
