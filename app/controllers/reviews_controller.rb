@@ -4,12 +4,14 @@ class ReviewsController < ApplicationController
 
   def create
     Review.create(review_params)
+
+    head :ok
   end
 
   def update
     @review.update(review_params)
 
-    @review
+    head :ok
   end
 
   def destroy
@@ -27,8 +29,6 @@ class ReviewsController < ApplicationController
   def review_params
     params.require(:id,
                    :movie_id,
-                   :user_id,
-                   :rating,
                    :title,
                    :blog)
   end
