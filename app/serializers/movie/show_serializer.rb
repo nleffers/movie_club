@@ -9,6 +9,8 @@ class Movie::ShowSerializer < ActiveModel::Serializer
   has_many :reviews, serializer: Review::ShowSerializer
 
   def user_rating
+    return unless User.current
+
     UserMovie.find_by(user_id: User.current.id, movie_id: object.id)&.rating
   end
 end

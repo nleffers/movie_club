@@ -1,7 +1,7 @@
 # Controller for Users
 class UsersController < ApplicationController
   skip_before_action :verify_authentication_token, only: %i[create login]
-  before_action :get_user, only: %i[logout update destroy]
+  before_action :get_user, only: %i[update destroy]
 
   def create
     @user = User.create(user_params)
@@ -18,8 +18,9 @@ class UsersController < ApplicationController
   end
 
   def logout
-    if @user
-      @user.update(token: nil)
+    if User.current
+      User.current.update(token: nil)
+      User.current = nil
 
       head :ok
     else

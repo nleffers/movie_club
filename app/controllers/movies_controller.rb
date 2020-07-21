@@ -32,8 +32,12 @@ class MoviesController < ApplicationController
   end
 
   def rate
-    @movie.assign_attributes(rating: @movie.rating + params[:rating],
-                             rating_count: @moving.rating_count + 1)
+    user_movie = UserMovie.find_by(user_id: User.current.id, movie_id: params[:id])
+    previous_user_rating = user_movie.rating || 0
+
+    user_movie.update(rating: params[:rating])
+    @movie.assign_attributes(rating: @movie.rating + params[:rating] - previous_user_rating)
+    @movie.assign_attributes(rating_count: @movie.rating_count + 1) if previous_user_rating.zero?
     @movie.save
 
     head :ok
