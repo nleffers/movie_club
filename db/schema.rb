@@ -36,7 +36,7 @@ ActiveRecord::Schema.define(version: 2020_07_20_223927) do
     t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "rating", default: 0, null: false
+    t.integer "rating"
     t.index ["movie_id"], name: "index_user_movies_on_movie_id"
     t.index ["user_id"], name: "index_user_movies_on_user_id"
   end

@@ -5,35 +5,37 @@ class MoviesController < ApplicationController
   def new; end
 
   def create
-    Movie.create(movie_params)
+    movie = Movie.create(movie_params)
+
+    render json: movie, serializer: Movie::ShowSerializer
   end
 
   def index
-    Movie.all
+    render json: Movie.all, serializer: Movie::IndexSerializer
   end
 
   def show
-    @movie
+    render json: @movie, serializer: Movie::ShowSerializer
   end
 
   def update
     @movie.update(movie_params)
 
-    @movie
+    render json: @movie, serializer: Movie::ShowSerializer
   end
 
   def destroy
     @movie.destroy
 
-    @movie
+    head :ok
   end
 
   def rate
-    @movie.rating += params[:rating]
-    @movie.rating_count += params[:rating_count]
+    @movie.assign_attributes(rating: @movie.rating + params[:rating],
+                             rating_count: @moving.rating_count + 1)
     @movie.save
 
-    @movie
+    head :ok
   end
 
   private
@@ -49,7 +51,6 @@ class MoviesController < ApplicationController
 
   def rating_params
     params.permit(:id,
-                  :rating,
-                  :rating_count)
+                  :rating)
   end
 end

@@ -1,5 +1,5 @@
-# Responsible for serializing a User's Movies
-class Movie::LoginSerializer < ActiveModel::Serializer
+# Responsible for serializing a Movie
+class Movie::ShowSerializer < ActiveModel::Serializer
   attributes :id,
              :title,
              :rating,

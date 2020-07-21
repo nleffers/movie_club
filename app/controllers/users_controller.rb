@@ -1,6 +1,6 @@
 # Controller for Users
 class UsersController < ApplicationController
-  # skip_before_action :verify_authentication_token, only: %i[create login]
+  skip_before_action :verify_authentication_token, only: %i[create login]
   before_action :get_user, only: %i[logout update destroy]
 
   def create
@@ -66,7 +66,7 @@ class UsersController < ApplicationController
     return unless user && user.authenticate(login_params[:password])
 
     @user = user
-    @user
+    @user.present?
   end
 
   def get_encoded_auth_token
