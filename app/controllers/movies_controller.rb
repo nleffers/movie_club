@@ -1,6 +1,6 @@
 # Controller for Movies
 class MoviesController < ApplicationController
-  skip_before_action :verify_authentication_token, only: %i[index show]
+  skip_before_action :verify_authentication_token, only: %i[index show top_movies]
   before_action :get_movie, only: %i[create show update destroy rate]
 
   def new; end
@@ -13,6 +13,10 @@ class MoviesController < ApplicationController
 
   def index
     render json: Movie.all, each_serializer: Movie::IndexSerializer
+  end
+
+  def top_movies
+    render json: Movie.all.order(:rating).order(:rating_count), each_serializer: Movie::IndexSerializer
   end
 
   def show
