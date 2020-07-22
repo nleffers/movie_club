@@ -1,7 +1,7 @@
 # Controller for Users
 class UsersController < ApplicationController
   skip_before_action :verify_authentication_token, only: %i[create login]
-  before_action :get_user, only: %i[update destroy get_movies get_reviews]
+  before_action :get_user, only: %i[show update destroy get_movies get_reviews]
 
   def create
     @user = User.create(user_params)
