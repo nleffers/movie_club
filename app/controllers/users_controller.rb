@@ -29,7 +29,7 @@ class UsersController < ApplicationController
   end
 
   def index
-    User.all
+    render json: User.all, each_serializer: User::IndexSerializer
   end
 
   def show
