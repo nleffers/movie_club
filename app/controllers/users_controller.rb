@@ -1,20 +1,20 @@
 # Controller for Users
 class UsersController < ApplicationController
   skip_before_action :verify_authentication_token, only: %i[create login]
-  before_action :get_user, only: %i[update destroy]
+  before_action :get_user, only: %i[update destroy get_movies get_reviews]
 
   def create
     @user = User.create(user_params)
     @user.update(token: get_encoded_auth_token)
     User.current = @user
 
-    render json: @user, serializer: User::ShowSerializer
+    render json: @user, serializer: User::LoginSerializer
   end
 
   def login
     User.current = authenticate_user
 
-    render json: @user, serializer: User::ShowSerializer
+    render json: @user, serializer: User::LoginSerializer
   end
 
   def logout
@@ -46,6 +46,14 @@ class UsersController < ApplicationController
     @user.destroy
 
     head :ok
+  end
+
+  def get_movies
+    render json: @user.movies, each_serializer: Movie::IndexSerializer
+  end
+
+  def get_reviews
+    render json: @user.reviews, each_serializer: Review::IndexSerializer
   end
 
   private
