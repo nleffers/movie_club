@@ -2,10 +2,15 @@
 class MoviesController < ApplicationController
   skip_before_action :verify_authentication_token, only: %i[index search show]
   before_action :get_movie, only: %i[create show]
-  before_action :tmdb_configuration, only: %i[show]
+  before_action :tmdb_configuration, only: %i[index popular_movies now_playing upcoming show]
 
   def index
-    render json: Tmdb::Movie.top_rated, each_serializer: Movie::IndexSerializer
+    movies = Tmdb::Movie.top_rated
+    movies.each do |movie|
+      movie.poster_path = @configuration.secure_base_url + @configuration.poster_sizes[1] + movie.poster_path
+    end
+
+    render json: movies
   end
 
   def search
@@ -13,15 +18,30 @@ class MoviesController < ApplicationController
   end
 
   def popular_movies
-    render json: Tmdb::Movie.popular, each_serializer: Movie::IndexSerializer
+    movies = Tmdb::Movie.popular
+    movies.each do |movie|
+      movie.poster_path = @configuration.secure_base_url + @configuration.poster_sizes[1] + movie.poster_path
+    end
+
+    render json: movies
   end
 
   def now_playing
-    render json: Tmdb::Movie.now_playing, each_serializer: Movie::IndexSerializer
+    movies = Tmdb::Movie.now_playing
+    movies.each do |movie|
+      movie.poster_path = @configuration.secure_base_url + @configuration.poster_sizes[1] + movie.poster_path
+    end
+
+    render json: movies
   end
 
   def upcoming
-    render json: Tmdb::Movie.upcoming, each_serializer: Movie::IndexSerializer
+    movies = Tmdb::Movie.upcoming
+    movies.each do |movie|
+      movie.poster_path = @configuration.secure_base_url + @configuration.poster_sizes[1] + movie.poster_path
+    end
+
+    render json: movies
   end
 
   def show
