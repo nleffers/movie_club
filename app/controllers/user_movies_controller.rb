@@ -14,7 +14,9 @@ class UserMoviesController < ApplicationController
   end
 
   def rate
-    UserMovie.find_by(user_id: User.current.id, imdb_id: params[:imdb_id]).update(rating: params[:rating])
+    movie = UserMovie.find_by(user_id: User.current.id, imdb_id: params[:imdb_id]) ||
+              UserMovie.create(user_id: User.current.id, imdb_id: params[:imdb_id])
+    movie.update(rating: params[:rating])
 
     head :ok
   end

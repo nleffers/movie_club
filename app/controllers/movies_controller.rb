@@ -14,7 +14,7 @@ class MoviesController < ApplicationController
   end
 
   def search
-    render json: Tmdb::Movie.find(movie_params[:title]), each_serializer: Movie::IndexSerializer
+    render json: Tmdb::Movie.find(movie_params[:title])
   end
 
   def popular_movies
@@ -45,8 +45,8 @@ class MoviesController < ApplicationController
   end
 
   def show
-    @movie['poster_path'] = @configuration.secure_base_url + @configuration.poster_sizes[1] + @movie['poster_path']
-    @movie['user_rating'] = UserMovie.find_by(user_id: User.current.id, imdb_id: @movie['imdb_id'])&.rating
+    @movie['poster_path'] = @configuration.secure_base_url + @configuration.poster_sizes[2] + @movie['poster_path']
+    @movie['user_rating'] = UserMovie.find_by(user_id: User.current.id, imdb_id: @movie['imdb_id'])&.rating if User.current
     @movie['reviews'] = Review.where(imdb_id: @movie['imdb_id'])
     render json: @movie
   end
