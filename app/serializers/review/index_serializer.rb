@@ -4,5 +4,5 @@ class Review::IndexSerializer < ActiveModel::Serializer
              :title,
              :blog,
              :user_id,
-             :movie_id
+             :imdb_id
 end

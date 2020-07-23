@@ -27,14 +27,14 @@ class ReviewsController < ApplicationController
   end
 
   def create_params
-    params.require(:review).permit(:id,
-                                   :movie_id,
+    params.require(:review).permit(:imdb_id,
                                    :title,
                                    :blog)
   end
 
   def edit_params
     params.require(:review).permit(:id,
+                                   :imdb_id,
                                    :title,
                                    :blog)
   end

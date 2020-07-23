@@ -35,6 +35,8 @@ gem 'jwt'
 # for clean, cache-able JSON serialization
 gem 'active_model_serializers'
 
+gem 'themoviedb'
+
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
 

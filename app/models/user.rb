@@ -13,4 +13,8 @@ class User < ApplicationRecord
   def self.current=(user)
     Thread.current[:user] = user
   end
+
+  def favorite_movies
+    user_movies.pluck(:imdb_id).map { |id| Tmdb::Movie.detail(id) }
+  end
 end

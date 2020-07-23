@@ -1,65 +1,47 @@
 # Controller for Movies
 class MoviesController < ApplicationController
-  skip_before_action :verify_authentication_token, only: %i[index show top_movies]
-  before_action :get_movie, only: %i[create show update destroy rate]
-
-  def new; end
-
-  def create
-    movie = Movie.create(movie_params)
-
-    render json: movie, serializer: Movie::ShowSerializer
-  end
+  skip_before_action :verify_authentication_token, only: %i[index search show]
+  before_action :get_movie, only: %i[create show]
+  before_action :tmdb_configuration, only: %i[show]
 
   def index
-    render json: Movie.all, each_serializer: Movie::IndexSerializer
+    render json: Tmdb::Movie.top_rated, each_serializer: Movie::IndexSerializer
   end
 
-  def top_movies
-    render json: Movie.all.order(:rating).order(:rating_count), each_serializer: Movie::IndexSerializer
+  def search
+    render json: Tmdb::Movie.find(movie_params[:title]), each_serializer: Movie::IndexSerializer
+  end
+
+  def popular_movies
+    render json: Tmdb::Movie.popular, each_serializer: Movie::IndexSerializer
+  end
+
+  def now_playing
+    render json: Tmdb::Movie.now_playing, each_serializer: Movie::IndexSerializer
+  end
+
+  def upcoming
+    render json: Tmdb::Movie.upcoming, each_serializer: Movie::IndexSerializer
   end
 
   def show
-    render json: @movie, serializer: Movie::ShowSerializer
-  end
-
-  def update
-    @movie.update(movie_params)
-
-    render json: @movie, serializer: Movie::ShowSerializer
-  end
-
-  def destroy
-    @movie.destroy
-
-    head :ok
-  end
-
-  def rate
-    user_movie = UserMovie.find_by(user_id: User.current.id, movie_id: params[:id])
-    previous_user_rating = user_movie.rating || 0
-
-    user_movie.update(rating: params[:rating])
-    @movie.assign_attributes(rating: @movie.rating + params[:rating] - previous_user_rating)
-    @movie.assign_attributes(rating_count: @movie.rating_count + 1) if previous_user_rating.zero?
-    @movie.save
-
-    head :ok
+    @movie['poster_path'] = @configuration.secure_base_url + @configuration.poster_sizes[1] + @movie['poster_path']
+    @movie['user_rating'] = UserMovie.find_by(user_id: User.current.id, imdb_id: @movie['imdb_id'])&.rating
+    @movie['reviews'] = Review.where(imdb_id: @movie['imdb_id'])
+    render json: @movie
   end
 
   private
 
+  def tmdb_configuration
+    @configuration = Tmdb::Configuration.new
+  end
+
   def get_movie
-    @movie = Movie.find(params[:id])
+    @movie = Tmdb::Movie.detail(params[:id])
   end
 
   def movie_params
-    params.permit(:id,
-                  :title)
-  end
-
-  def rating_params
-    params.permit(:id,
-                  :rating)
+    params.permit(:id, :imdb_id, :title)
   end
 end

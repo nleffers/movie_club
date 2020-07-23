@@ -1,6 +1,7 @@
 # Responsible for serializing a Movie
 class Movie::ShowSerializer < ActiveModel::Serializer
   attributes :id,
+             :imdb_id,
              :title,
              :rating,
              :rating_count,
@@ -11,6 +12,6 @@ class Movie::ShowSerializer < ActiveModel::Serializer
   def user_rating
     return unless User.current
 
-    UserMovie.find_by(user_id: User.current.id, movie_id: object.id)&.rating
+    UserMovie.find_by(user_id: User.current.id, imdb_id: object.imdb_id)&.rating
   end
 end

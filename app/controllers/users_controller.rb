@@ -2,6 +2,7 @@
 class UsersController < ApplicationController
   skip_before_action :verify_authentication_token, only: %i[create login]
   before_action :get_user, only: %i[show update destroy get_movies get_reviews]
+  before_action :tmdb_configuration, only: %i[get_movies]
 
   def create
     @user = User.create(user_params)
@@ -49,7 +50,13 @@ class UsersController < ApplicationController
   end
 
   def get_movies
-    render json: @user.movies, each_serializer: Movie::IndexSerializer
+    movies = @user.favorite_movies
+    movies.each do |movie|
+      movie['poster_path'] = @configuration.secure_base_url + @configuration.poster_sizes[1] + movie['poster_path']
+      movie['user_rating'] = UserMovie.find_by(user_id: User.current.id, imdb_id: movie['imdb_id'])&.rating
+    end
+
+    render json: movies
   end
 
   def get_reviews
@@ -57,6 +64,10 @@ class UsersController < ApplicationController
   end
 
   private
+
+  def tmdb_configuration
+    @configuration = Tmdb::Configuration.new
+  end
 
   def get_user
     @user = User.find(params[:id])
