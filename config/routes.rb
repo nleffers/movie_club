@@ -11,9 +11,7 @@ Rails.application.routes.draw do
   post '/users/login', to: 'users#login'
   post '/users/logout/:id', to: 'users#logout'
 
-  get '/movies/popular', to: 'movies#popular_movies'
-  get '/movies/now_playing', to: 'movies#now_playing'
-  get '/movies/upcoming', to: 'movies#upcoming'
+  get '/movies/search', to: 'movies#search'
   resources :movies, only: [:index, :show, :update, :create, :new] do
     member do
       put 'rate', to: 'user_movies#rate'
