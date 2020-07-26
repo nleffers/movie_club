@@ -52,7 +52,7 @@ class UsersController < ApplicationController
   def get_movies
     movies = @user.favorite_movies
     movies.each do |movie|
-      movie['poster_path'] = @configuration.secure_base_url + @configuration.poster_sizes[1] + movie['poster_path']
+      movie['poster_path'] = @configuration.secure_base_url + @configuration.poster_sizes[0] + movie['poster_path']
       movie['user_rating'] = UserMovie.find_by(user_id: User.current.id, imdb_id: movie['imdb_id'])&.rating
     end
 
@@ -83,7 +83,7 @@ class UsersController < ApplicationController
 
   def user_authenticated?
     user = User.find_by(username: login_params[:username])
-    return unless user && user.authenticate(login_params[:password])
+    return unless user&.authenticate(login_params[:password])
 
     @user = user
     @user.present?

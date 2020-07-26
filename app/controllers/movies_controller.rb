@@ -18,14 +18,16 @@ class MoviesController < ApplicationController
   def search
     movies = Tmdb::Movie.find(movie_params[:title])
     movies.each do |movie|
-      movie.poster_path = @configuration.secure_base_url + @configuration.poster_sizes[1] + movie.poster_path
+      movie.poster_path = @configuration.secure_base_url + @configuration.poster_sizes[0] + movie.poster_path if movie.poster_path
     end
 
     render json: movies
   end
 
   def show
-    @movie['poster_path'] = @configuration.secure_base_url + @configuration.poster_sizes[2] + @movie['poster_path']
+    if @movie['poster_path']
+      @movie['poster_path'] = @configuration.secure_base_url + @configuration.poster_sizes[1] + @movie['poster_path']
+    end
     @movie['user_rating'] = UserMovie.find_by(user_id: User.current.id, imdb_id: @movie['imdb_id'])&.rating if User.current
     @movie['reviews'] = Review.where(imdb_id: @movie['imdb_id'])
 

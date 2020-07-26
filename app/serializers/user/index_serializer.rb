@@ -6,4 +6,3 @@ class User::IndexSerializer < ActiveModel::Serializer
              :first_name,
              :last_name
 end
-
