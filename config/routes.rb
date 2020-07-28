@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  get '/', to: 'homepage#home', as: 'root'
+  get '/home', to: 'movies#home'
 
   resources :users, only: [:index, :show, :update, :create, :new, :destroy] do
     member do
