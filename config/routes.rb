@@ -11,7 +11,7 @@ Rails.application.routes.draw do
   post '/users/login', to: 'users#login'
   post '/users/logout/:id', to: 'users#logout'
 
-  get '/movies/search', to: 'movies#search'
+  get '/search', to: 'movies#search'
   resources :movies, only: [:index, :show, :update, :create, :new] do
     member do
       put 'rate', to: 'user_movies#rate'
