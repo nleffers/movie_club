@@ -47,7 +47,7 @@ class MoviesController < ApplicationController
     end
     @movie['casts'] = get_cast
     @movie['user_rating'] = UserMovie.find_by(user_id: User.current.id, imdb_id: @movie['imdb_id'])&.rating if User.current
-    @movie['reviews'] = Review.where(imdb_id: @movie['imdb_id'])
+    @movie['reviews'] = get_reviews
 
     render json: @movie
   end
@@ -93,6 +93,14 @@ class MoviesController < ApplicationController
     return unless path
 
     @configuration.secure_base_url + @configuration.poster_sizes[0] + path
+  end
+
+  def get_reviews
+    reviews = Review.where(imdb_id: @movie['imdb_id'])
+    reviews.map do |review|
+      username = User.find(review.user_id).username
+      JSON.parse(review.to_json).except(:user_id).merge(written_by_username: username)
+    end
   end
 
   def movie_params
