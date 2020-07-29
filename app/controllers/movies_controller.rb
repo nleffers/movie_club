@@ -7,9 +7,9 @@ class MoviesController < ApplicationController
   def home
     trailers = []
     x = 0
-    movies = Tmdb::Movie.upcoming
+    movies = JSON.parse(Tmdb::Movie.upcoming.to_json)
     loop do
-      trailer = Tmdb::Movie.trailers(movies[x].id)['youtube'][0]
+      trailer = Tmdb::Movie.trailers(movies[x]['id'])['youtube'][0]
       next unless trailer['name'] && trailer['source']
 
       trailers << get_movie_trailer(movies[x], trailer)
@@ -35,7 +35,7 @@ class MoviesController < ApplicationController
   def search
     movies = Tmdb::Movie.find(movie_params[:title])
     movies.each do |movie|
-      movie.poster_path = @configuration.secure_base_url + @configuration.poster_sizes[0] + movie.poster_path if movie.poster_path
+      movie.poster_path = secure_base_url_with_size(1) + movie.poster_path if movie.poster_path
     end
 
     render json: movies
@@ -43,8 +43,9 @@ class MoviesController < ApplicationController
 
   def show
     if @movie['poster_path']
-      @movie['poster_path'] = @configuration.secure_base_url + @configuration.poster_sizes[1] + @movie['poster_path']
+      @movie['poster_path'] = secure_base_url_with_size(2) + @movie['poster_path']
     end
+    @movie['casts'] = get_cast
     @movie['user_rating'] = UserMovie.find_by(user_id: User.current.id, imdb_id: @movie['imdb_id'])&.rating if User.current
     @movie['reviews'] = Review.where(imdb_id: @movie['imdb_id'])
 
@@ -63,7 +64,7 @@ class MoviesController < ApplicationController
 
   def get_movies_with_poster(movies)
     movies.each do |movie|
-      movie.poster_path = @configuration.secure_base_url + @configuration.poster_sizes[1] + movie.poster_path if movie.poster_path
+      movie.poster_path = secure_base_url_with_size(1) + movie.poster_path if movie.poster_path
     end
 
     movies
@@ -71,8 +72,8 @@ class MoviesController < ApplicationController
 
   def get_movie_trailer(movie, trailer)
     {
-      id: movie.id,
-      title: movie.title,
+      id: movie['id'],
+      title: movie['title'],
       trailer: {
         name: trailer['name'],
         source: trailer['source']
@@ -80,7 +81,25 @@ class MoviesController < ApplicationController
     }
   end
 
+  def get_cast
+    movie_cast = Tmdb::Movie.casts(@movie['id']).select { |cast| cast['character'].present? }
+    movie_cast.map do |cast|
+      path = get_person_image(cast['profile_path'])
+      cast.except('profile_path').merge('profile_path': path)
+    end
+  end
+
+  def get_person_image(path)
+    return unless path
+
+    @configuration.secure_base_url + @configuration.poster_sizes[0] + path
+  end
+
   def movie_params
     params.permit(:id, :imdb_id, :title)
+  end
+
+  def secure_base_url_with_size(size)
+    @configuration.secure_base_url + @configuration.poster_sizes[size]
   end
 end
