@@ -16,23 +16,11 @@ if Rails.env.development?
 else
   Rails.application.config.middleware.insert_before 0, Rack::Cors do
     allow do
-      origins '*'
+      origins 'https://immense-mountain-08471.herokuapp.com'
 
       resource '*',
                headers: :any,
                methods: %i[get post delete options put]
-    end
-  end
-
-  module Rack
-    class Cors
-      # resource class
-      class Resource
-        # Gross duck-punching to get this working in environments where we don't manage CORS directly
-        def to_headers
-          {}
-        end
-      end
     end
   end
 end
