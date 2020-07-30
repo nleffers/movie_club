@@ -13,8 +13,10 @@ class UsersController < ApplicationController
   end
 
   def login
-    User.current = authenticate_user
+    result = authenticate_user
+    render status: 401 unless result
 
+    User.current = result
     render json: @user, serializer: User::LoginSerializer
   end
 
