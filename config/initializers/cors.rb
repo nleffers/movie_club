@@ -17,6 +17,7 @@ else
   Rails.application.config.middleware.insert_before 0, Rack::Cors do
     allow do
       resource '*',
+               'Access-Control-Allow-Origin': 'https://immense-mountain-08471.herokuapp.com/*',
                headers: :any,
                methods: %i[get post delete options put]
     end
