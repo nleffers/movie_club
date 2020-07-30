@@ -23,4 +23,19 @@ else
                methods: %i[get post delete options put]
     end
   end
+
+  module Rack
+    class Cors
+      # resource class
+      class Resource
+        # Gross duck-punching to get this working in environments where we don't manage CORS directly
+        def to_headers(env)
+          h = {
+            'Access-Control-Allow-Origin' => origin_for_response_header(env[Rack::Cors::HTTP_ORIGIN]),
+            'Access=Control-Allow-Methods' => methods.collect { |m| m.to_s.upcase }.join(', ')
+          }
+        end
+      end
+    end
+  end
 end
