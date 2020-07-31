@@ -21,7 +21,7 @@ class UsersController < ApplicationController
   end
 
   def logout
-    if User.current
+    if User.current.id == params[:id].to_i
       User.current.update(token: nil)
       User.current = nil
 
@@ -29,10 +29,6 @@ class UsersController < ApplicationController
     else
       head :forbidden
     end
-  end
-
-  def index
-    render json: User.all, each_serializer: User::IndexSerializer
   end
 
   def show
@@ -43,12 +39,6 @@ class UsersController < ApplicationController
     @user.update(user_params)
 
     render json: @user, serializer: User::ShowSerializer
-  end
-
-  def destroy
-    @user.destroy
-
-    head :ok
   end
 
   def get_movies
