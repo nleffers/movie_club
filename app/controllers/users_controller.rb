@@ -14,7 +14,7 @@ class UsersController < ApplicationController
 
   def login
     result = authenticate_user
-    render status: 401 unless result
+    render json: { message: 'Login Rejected' }, status: 401 and return unless result
 
     User.current = result
     render json: @user, serializer: User::LoginSerializer
