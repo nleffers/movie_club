@@ -1,8 +1,8 @@
 # Controller for Movies
 class MoviesController < ApplicationController
-  skip_before_action :verify_authentication_token, only: %i[home index search show]
+  skip_before_action :verify_authentication_token
+  before_action :tmdb_configuration
   before_action :get_movie, only: %i[show]
-  before_action :tmdb_configuration, only: %i[home index search show]
 
   def home
     trailers = []

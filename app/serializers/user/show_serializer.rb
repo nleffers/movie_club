@@ -4,8 +4,5 @@ class User::ShowSerializer < ActiveModel::Serializer
              :username,
              :first_name,
              :last_name,
-             :email,
-             :movies
-
-  has_many :reviews, each_serializer: Review::IndexSerializer
+             :email
 end

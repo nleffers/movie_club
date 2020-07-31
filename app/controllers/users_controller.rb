@@ -51,10 +51,6 @@ class UsersController < ApplicationController
     render json: movies
   end
 
-  def get_reviews
-    render json: @user.reviews, each_serializer: Review::IndexSerializer
-  end
-
   private
 
   def tmdb_configuration

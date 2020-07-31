@@ -4,7 +4,6 @@ Rails.application.routes.draw do
   resources :users, only: [:show, :update, :create] do
     member do
       get 'movies', to: 'users#get_movies'
-      get 'reviews', to: 'users#get_reviews'
       post 'logout', to: 'users#logout'
     end
   end
