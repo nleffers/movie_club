@@ -1,5 +1,7 @@
 # Application Controller
 class ApplicationController < ActionController::API
+  include ExceptionHandler
+
   before_action :verify_authentication_token
 
   def verify_authentication_token
