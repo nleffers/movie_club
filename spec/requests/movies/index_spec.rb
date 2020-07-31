@@ -3,7 +3,7 @@ describe 'Movie API Index Endpoint' do
     get '/movies'
 
     expect(response.status).to eq(200)
-    
+
     results = JSON.parse(response.body)
     expect(results['top_rated'].count).to eq(20)
     expect(results['upcoming'].count).to eq(20)

@@ -3,11 +3,11 @@ describe 'User API Get Movies Endpoint' do
     it 'returns list of movies the user has rated' do
       allow_any_instance_of(ApplicationController).to receive(:token_verified?).and_return(true)
       user = User.create(username: 'test',
-                          password: 'test',
-                          email: 'test@test.com',
-                          first_name: 'first',
-                          last_name: 'last',
-                          token: 'token')
+                         password: 'test',
+                         email: 'test@test.com',
+                         first_name: 'first',
+                         last_name: 'last',
+                         token: 'token')
       User.current = user
 
       UserMovie.create(imdb_id: 'tt0137523', user_id: user.id, rating: 10)

@@ -42,9 +42,7 @@ class MoviesController < ApplicationController
   end
 
   def show
-    if @movie['poster_path']
-      @movie['poster_path'] = secure_base_url_with_size(2) + @movie['poster_path']
-    end
+    @movie['poster_path'] = secure_base_url_with_size(2) + @movie['poster_path'] if @movie['poster_path']
     @movie['casts'] = get_cast
     @movie['user_rating'] = UserMovie.find_by(user_id: User.current.id, imdb_id: @movie['imdb_id'])&.rating if User.current
     @movie['reviews'] = get_reviews

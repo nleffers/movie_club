@@ -6,7 +6,7 @@ describe 'Movie API Show Endpoint' do
     get '/movies/550'
 
     expect(response.status).to eq(200)
-    
+
     result = JSON.parse(response.body)
     expect(result['casts'].count).to be > 0
     expect(result['reviews'].count).to eq(1)
