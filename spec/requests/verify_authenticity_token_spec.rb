@@ -3,12 +3,7 @@ RSpec.describe 'Requests from Frontend' do
   let(:headers) { { 'HTTP_X_AUTH_TOKEN' => token } }
   let(:bad_headers) { { 'HTTP_X_AUTH_TOKEN' => 'bad_token' } }
   before(:each) do
-    User.current = User.create(username: 'test',
-                               password: 'test',
-                               email: 'test@test.com',
-                               first_name: 'first',
-                               last_name: 'last',
-                               token: 'token')
+    User.current = create(:user, token: token)
   end
 
   context 'verify_authentication_token' do

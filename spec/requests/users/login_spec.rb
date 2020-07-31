@@ -1,6 +1,6 @@
 describe 'User Login', type: :request do
   before(:each) do
-    @user = User.create(username: 'test', password: 'test', email: 'test@test.com', first_name: 'Test', last_name: 'Test')
+    @user = create(:user)
   end
 
   describe 'user#login' do
@@ -8,8 +8,8 @@ describe 'User Login', type: :request do
       it 'returns successful json' do
         params = {
           login: {
-            username: 'test',
-            password: 'test'
+            username: @user.username,
+            password: @user.username
           }
         }
 
@@ -18,7 +18,7 @@ describe 'User Login', type: :request do
         expect(response.code).to eq('200')
         expect(json['token'].class).to be(String)
         expect(json['id']).to be(@user.id)
-        expect(json['username']).to eq('test')
+        expect(json['username']).to eq(@user.username)
       end
     end
 

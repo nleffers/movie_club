@@ -1,12 +1,7 @@
 describe 'User Logout', type: :request do
   before(:each) do
     allow_any_instance_of(ApplicationController).to receive(:token_verified?).and_return(true)
-    @user = User.create(username: 'test',
-                        password: 'test',
-                        email: 'test@test.com',
-                        first_name: 'first',
-                        last_name: 'last',
-                        token: 'token')
+    @user = create(:user, token: 'token')
     User.current = @user
   end
 
