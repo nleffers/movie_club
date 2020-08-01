@@ -1,5 +1,6 @@
 # Represents a User
 class User < ApplicationRecord
+  validates_uniqueness_of :username, :email
   has_secure_password
 
   has_many :user_movies

@@ -6,6 +6,8 @@ class UsersController < ApplicationController
 
   def create
     @user = User.create(user_params)
+    render status: 422 and return if @user.invalid?
+
     @user.update(token: get_encoded_auth_token)
     User.current = @user
 
