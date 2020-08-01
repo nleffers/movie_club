@@ -47,6 +47,10 @@ gem 'simple_command'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
 
+gem 'pry'
+gem 'pry-byebug'
+gem 'pry-rails'
+gem 'pry-rescue'
 group :development, :test do
   gem 'factory_bot_rails'
   gem 'rspec-rails'
@@ -54,10 +58,6 @@ group :development, :test do
   gem 'rb-readline'
 
   gem 'database_cleaner'
-  gem 'pry'
-  gem 'pry-byebug'
-  gem 'pry-rails'
-  gem 'pry-rescue'
   gem 'shoulda-matchers'
 
   gem 'rubocop'
