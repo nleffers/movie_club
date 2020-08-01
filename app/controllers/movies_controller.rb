@@ -83,7 +83,11 @@ class MoviesController < ApplicationController
     movie_cast = Tmdb::Movie.casts(@movie['id']).select { |cast| cast['character'].present? }
     movie_cast.map do |cast|
       path = get_person_image(cast['profile_path'])
-      cast.except('profile_path').merge('profile_path': path)
+      {
+        profile_path: path,
+        name: cast['name'],
+        character: cast['character']
+      }
     end
   end
 

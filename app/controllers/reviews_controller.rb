@@ -1,6 +1,6 @@
 # Controller for Reviews
 class ReviewsController < ApplicationController
-  before_action :get_review, only: %i[update destroy]
+  before_action :get_review, only: %i[update]
 
   def create
     review = Review.create(create_params.merge(user_id: User.current.id))
@@ -9,22 +9,12 @@ class ReviewsController < ApplicationController
   end
 
   def update
-    @review.update(edit_params)
-
-    head :ok
-  end
-
-  def destroy
-    @review.destroy
+    Review.find(params[:id]).update(edit_params)
 
     head :ok
   end
 
   private
-
-  def get_review
-    @review = Review.find(params[:id])
-  end
 
   def create_params
     params.require(:review).permit(:imdb_id,
