@@ -1,7 +1,7 @@
 # All logic associated with the creation/encoding and decoding of JWTs
 class JsonWebToken
   class << self
-    def encode(payload, exp = 1.hour.from_now)
+    def encode(payload, exp = 24.hours.from_now)
       payload[:exp] = exp.to_i
 
       JWT.encode(payload, Rails.application.credentials.secret_key_base)
