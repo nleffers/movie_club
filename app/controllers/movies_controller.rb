@@ -98,7 +98,7 @@ class MoviesController < ApplicationController
   end
 
   def get_reviews
-    reviews = Review.where(imdb_id: @movie['imdb_id'])
+    reviews = Review.where(imdb_id: @movie['imdb_id']).order(created_at: :desc)
     reviews.map do |review|
       username = User.find(review.user_id).username
       JSON.parse(review.to_json).except(:user_id).merge(written_by_username: username)

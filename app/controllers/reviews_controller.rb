@@ -1,7 +1,5 @@
 # Controller for Reviews
 class ReviewsController < ApplicationController
-  before_action :get_review, only: %i[update]
-
   def create
     review = Review.create(create_params.merge(user_id: User.current.id))
 
