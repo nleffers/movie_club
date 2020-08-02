@@ -5,7 +5,7 @@ class ReviewsController < ApplicationController
   def create
     review = Review.create(create_params.merge(user_id: User.current.id))
 
-    render json: { id: review.id }, status: 200
+    render json: { id: review.id, created_at: review.created_at }, status: 200
   end
 
   def update
