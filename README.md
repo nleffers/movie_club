@@ -6,7 +6,7 @@
 * [Setup](#setup)
 
 ## General Info
-Back-end of a simple movie tracking and informational app.
+Back-end of a simple movie information app.
 
 Built to showcase comprehension of Ruby on Rails, working with a PostgreSQL database, user security, and communication with external APIs and a custom built VueJS front-end app.
 
