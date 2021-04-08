@@ -16,9 +16,9 @@ Visit [this link](https://immense-mountain-08471.herokuapp.com/) to see the app 
 * Ruby 2.7.3
 * Rails 5.2.5
 * PostGres 1.2.3
-* TheMovieDB API [(Click here for more info)](https://developers.themoviedb.org/3/getting-started/introduction)
+* TheMovieDB API ([Click here for more info](https://developers.themoviedb.org/3/getting-started/introduction))
 
 ## Setup
-1) Clone this repo [(Instructions)](https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/cloning-a-repository)
+1) Clone this repo ([Instructions](https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/cloning-a-repository))
 2) Navigate to the project directory `cd movie_club`
 3) Run `bundle install`
