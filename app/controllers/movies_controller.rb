@@ -6,16 +6,12 @@ class MoviesController < ApplicationController
 
   def home
     trailers = []
-    x = 0
-    movies = JSON.parse(Tmdb::Movie.upcoming.to_json)
-    loop do
-      trailer = Tmdb::Movie.trailers(movies[x]['id'])['youtube'][0]
+    JSON.parse(Tmdb::Movie.upcoming.to_json).each do |movie|
+      trailer = Tmdb::Movie.trailers(movie['id'])['youtube'][0]
       next unless trailer['name'] && trailer['source']
 
-      trailers << get_movie_trailer(movies[x], trailer)
+      trailers << get_movie_trailer(movie, trailer)
       break if trailers.count == 5
-
-      x += 1
     end
 
     render json: trailers
@@ -34,9 +30,7 @@ class MoviesController < ApplicationController
 
   def search
     movies = Tmdb::Movie.find(movie_params[:title])
-    movies.each do |movie|
-      movie.poster_path = secure_base_url_with_size(1) + movie.poster_path if movie.poster_path
-    end
+    movies.each { |movie| movie.poster_path = secure_base_url_with_size(1) + movie.poster_path if movie.poster_path }
 
     render json: movies
   end
@@ -61,9 +55,7 @@ class MoviesController < ApplicationController
   end
 
   def get_movies_with_poster(movies)
-    movies.each do |movie|
-      movie.poster_path = secure_base_url_with_size(1) + movie.poster_path if movie.poster_path
-    end
+    movies.each { |movie| movie.poster_path = secure_base_url_with_size(1) + movie.poster_path if movie.poster_path }
 
     movies
   end
