@@ -3,6 +3,7 @@ module ExceptionHandler
   extend ActiveSupport::Concern
 
   class DecodeError < StandardError; end
+
   class ExpiredSignature < StandardError; end
 
   included do
